@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * @Builder：创建一个构建器，用于创建复杂对象，避免使用构造函数传参，而是使用setter方法设置各个属性值，最后通过build方法创建对象。
+ */
 @Data
 @Builder
 @NoArgsConstructor
