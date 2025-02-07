@@ -1,6 +1,7 @@
 package com.sky.controller.admin;
 
 import com.sky.constant.JwtClaimsConstant;
+import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.entity.Employee;
 import com.sky.properties.JwtProperties;
@@ -29,51 +30,61 @@ import java.util.Map;
 @Api(tags = "员工相关接口")
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeService employeeService;
-    @Autowired
-    private JwtProperties jwtProperties;
+	@Autowired
+	private EmployeeService employeeService;
+	@Autowired
+	private JwtProperties jwtProperties;
 
-    /**
-     * 登录
-     *
-     * @param employeeLoginDTO
-     * @return
-     */
-    @PostMapping("/login")
-    @ApiOperation(value = "员工登录")   // “value”可不写，可以直接写值
-    public Result<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO) {
-        log.info("员工登录：{}", employeeLoginDTO);
+	/**
+	 * 登录
+	 *
+	 * @param employeeLoginDTO
+	 * @return
+	 */
+	@PostMapping("/login")
+	@ApiOperation(value = "员工登录")   // “value”可不写，可以直接写值
+	public Result<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO) {
+		log.info("员工登录：{}", employeeLoginDTO);
 
-        Employee employee = employeeService.login(employeeLoginDTO);
+		Employee employee = employeeService.login(employeeLoginDTO);
 
-        //登录成功后，生成jwt令牌
-        Map<String, Object> claims = new HashMap<>();
-        claims.put(JwtClaimsConstant.EMP_ID, employee.getId());
-        String token = JwtUtil.createJWT(
-                jwtProperties.getAdminSecretKey(),
-                jwtProperties.getAdminTtl(),
-                claims);
+		//登录成功后，生成jwt令牌
+		Map<String, Object> claims = new HashMap<>();
+		claims.put(JwtClaimsConstant.EMP_ID, employee.getId());
+		String token = JwtUtil.createJWT(
+				jwtProperties.getAdminSecretKey(),
+				jwtProperties.getAdminTtl(),
+				claims);
 
-        EmployeeLoginVO employeeLoginVO = EmployeeLoginVO.builder()
-                .id(employee.getId())
-                .userName(employee.getUsername())
-                .name(employee.getName())
-                .token(token)
-                .build();
+		EmployeeLoginVO employeeLoginVO = EmployeeLoginVO.builder()
+				.id(employee.getId())
+				.userName(employee.getUsername())
+				.name(employee.getName())
+				.token(token)
+				.build();
 
-        return Result.success(employeeLoginVO);
-    }
+		return Result.success(employeeLoginVO);
+	}
 
-    /**
-     * 退出
-     *
-     * @return
-     */
-    @PostMapping("/logout")
-    @ApiOperation("员工退出")
-    public Result<String> logout() {
-        return Result.success();
-    }
+	/**
+	 * 退出
+	 *
+	 * @return
+	 */
+	@PostMapping("/logout")
+	@ApiOperation("员工退出")
+	public Result<String> logout() {
+		return Result.success();
+	}
 
+
+	/**
+	 * 新增员工
+	 */
+	@PostMapping    // 继承父类RequestMapping注解, 所以路径为/admin/employee
+	public Result save(@RequestBody EmployeeDTO employeeDTO) {   // @RequestBody注解：表示将请求体中的json数据封装到EmployeeDTO对象中
+		log.info("新增员工：{}", employeeDTO);
+		employeeService.save(employeeDTO);
+		return Result.success();
+	}
 }

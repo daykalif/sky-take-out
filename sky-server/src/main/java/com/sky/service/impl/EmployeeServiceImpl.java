@@ -1,7 +1,9 @@
 package com.sky.service.impl;
 
 import com.sky.constant.MessageConstant;
+import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
+import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
@@ -9,9 +11,12 @@ import com.sky.exception.AccountNotFoundException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
 import com.sky.service.EmployeeService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import java.time.LocalDateTime;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -54,4 +59,38 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employee;
 	}
 
+	/*
+	 * 新增员工
+	 *
+	 * 调用持久层mapper，将员工信息保存到数据库中；
+	 *
+	 * 传入的时候是个DTO，方便我们封装前端提交过来的数据；
+	 * 传入持久层的时候建议存入实体对象，方便后续的持久化操作；
+	 * 因此我们需要将DTO对象转化为实体对象；
+	 * Employee实体对象的属性要比DTO对象多一些，因此需要我们手动封装；
+	 */
+	@Override
+	public void save(EmployeeDTO employeeDTO) {
+		Employee employee = new Employee();
+		//	对象属性拷贝，一次性将DTO对象中的属性值拷贝到实体对象中；
+		BeanUtils.copyProperties(employeeDTO, employee);    // 一次性属性拷贝，需要保持属性名一致；
+
+		//	设置账号的状态，默认正常状态
+		employee.setStatus(StatusConstant.ENABLE);
+
+		//	设置密码，默认密码为123456; 需要进行md5加密
+		employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
+
+		//	设置当前记录的创建时间和修改时间
+		employee.setCreateTime(LocalDateTime.now());
+		employee.setUpdateTime(LocalDateTime.now());
+
+		//	设置当前记录创建人id和修改人id
+		// TODO 后期需要改为当前登录用户的id
+		employee.setCreateUser(10L);
+		employee.setUpdateUser(10L);
+
+		//	调用持久层mapper，将员工信息保存到数据库中
+		employeeMapper.insert(employee);
+	}
 }
