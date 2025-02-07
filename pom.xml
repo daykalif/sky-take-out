@@ -63,6 +63,7 @@
                 <version>${druid}</version>
             </dependency>
 
+            <!-- 用于分页查询 -->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
