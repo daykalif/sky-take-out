@@ -13,4 +13,41 @@
         <!-- limit 0,10 -->
         order by create_time desc
     </select>
+
+
+    <!--配置动态sql-->
+    <!--parameterType可以省略，也可以写出来；因为在application.yml中设置了“type-aliases-package: com.sky.entity”，扫描了实体的包名，所以parameterType可以直接写别名Employee-->
+    <update id="update" parameterType="Employee">
+        update employee
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="idNumber != null and idNumber != ''">
+                id_number = #{idNumber},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="updateUser != null">
+                update_user = #{updateUser},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
 </mapper>

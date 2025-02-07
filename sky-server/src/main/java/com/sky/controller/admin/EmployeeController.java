@@ -50,17 +50,9 @@ public class EmployeeController {
 		//登录成功后，生成jwt令牌
 		Map<String, Object> claims = new HashMap<>();
 		claims.put(JwtClaimsConstant.EMP_ID, employee.getId());
-		String token = JwtUtil.createJWT(
-				jwtProperties.getAdminSecretKey(),
-				jwtProperties.getAdminTtl(),
-				claims);
+		String token = JwtUtil.createJWT(jwtProperties.getAdminSecretKey(), jwtProperties.getAdminTtl(), claims);
 
-		EmployeeLoginVO employeeLoginVO = EmployeeLoginVO.builder()
-				.id(employee.getId())
-				.userName(employee.getUsername())
-				.name(employee.getName())
-				.token(token)
-				.build();
+		EmployeeLoginVO employeeLoginVO = EmployeeLoginVO.builder().id(employee.getId()).userName(employee.getUsername()).name(employee.getName()).token(token).build();
 
 		return Result.success(employeeLoginVO);
 	}
@@ -100,5 +92,22 @@ public class EmployeeController {
 		log.info("分页查询员工列表：{}", employeePageQueryDTO);
 		PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);
 		return Result.success(pageResult);
+	}
+
+
+	/**
+	 * 启用禁用员工账号状态
+	 *
+	 * @param tempStatus
+	 * @param id
+	 * @return
+	 * @PathVariable注解：表示将请求路径中的参数绑定到方法参数上；也可以写成 @PathVariable Integer status
+	 */
+	@PostMapping("/status/{status}")
+	@ApiOperation("启用禁用员工账号状态")
+	public Result startOrStop(@PathVariable("status") Integer tempStatus, Long id) {
+		log.info("启用禁用员工账号：{},{}", tempStatus, id);
+		employeeService.startOrStop(tempStatus, id);
+		return Result.success();
 	}
 }

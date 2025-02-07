@@ -121,4 +121,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 		List<Employee> records = page.getResult();
 		return new PageResult(total, records);    // 调用PageResult的有参构造方法
 	}
+
+
+	/**
+	 * 启用禁用员工账号状态
+	 *
+	 * @param tempStatus
+	 * @param id
+	 */
+	@Override
+	public void startOrStop(Integer tempStatus, Long id) {
+		// update employee set status = ? where id = ?
+
+		// 方式一：创建实体对象
+		//Employee employee = new Employee();
+		//employee.setStatus(tempStatus);
+		//employee.setId(id);
+
+		// 方式二：使用builder模式
+		Employee employee = Employee.builder()
+				.status(tempStatus)
+				.id(id)
+				.build();
+
+		employeeMapper.update(employee);
+	}
 }

@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-@Builder
+@Builder    // 构建者模式，创建对象时，可以指定初始值
 @NoArgsConstructor
 @AllArgsConstructor
 public class Employee implements Serializable {
