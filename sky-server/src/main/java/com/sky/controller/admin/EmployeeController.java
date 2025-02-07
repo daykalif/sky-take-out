@@ -84,6 +84,9 @@ public class EmployeeController {
 	@PostMapping    // 继承父类RequestMapping注解, 所以路径为/admin/employee
 	public Result save(@RequestBody EmployeeDTO employeeDTO) {   // @RequestBody注解：表示将请求体中的json数据封装到EmployeeDTO对象中
 		log.info("新增员工：{}", employeeDTO);
+
+		System.out.println("当前线程的id2：" + Thread.currentThread().getId());
+
 		employeeService.save(employeeDTO);
 		return Result.success();
 	}
