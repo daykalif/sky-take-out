@@ -9,3 +9,6 @@ sky:
   alioss:
     endpoint: oss-cn-beijing.aliyuncs.com
     bucket-name: daykalif-sky-itcast
+
+
+# 阿里云配置access-key文档：https://help.aliyun.com/zh/direct-mail/configure-the-authentication-accesskey-in-the-environment-variable
