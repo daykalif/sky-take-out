@@ -8,6 +8,4 @@ sky:
     password: Wjp7867137639
   alioss:
     endpoint: oss-cn-beijing.aliyuncs.com
-    access-key-id: xxxx
-    access-key-secret: xxxx
     bucket-name: daykalif-sky-itcast
