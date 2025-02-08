@@ -89,13 +89,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 		//	设置密码，默认密码为123456; 需要进行md5加密
 		employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
 
-		//	设置当前记录的创建时间和修改时间
-		employee.setCreateTime(LocalDateTime.now());
-		employee.setUpdateTime(LocalDateTime.now());
-
-		// 设置当前记录创建人id和修改人id
-		employee.setCreateUser(BaseContext.getCurrentId());
-		employee.setUpdateUser(BaseContext.getCurrentId());
+		/*
+		 * 第四步：
+		 * 不在需要impl中自己设置创建时间、创建人、修改时间、修改人；
+		 * 而是在持久层mapper中，使用@AutoFill注解自动填充；
+		 *
+		 * // 设置当前记录的创建时间和修改时间
+		 * employee.setCreateTime(LocalDateTime.now());
+		 * employee.setUpdateTime(LocalDateTime.now());
+		 *
+		 * // 设置当前记录创建人id和修改人id
+		 * employee.setCreateUser(BaseContext.getCurrentId());
+		 * employee.setUpdateUser(BaseContext.getCurrentId());
+		 */
 
 		//	调用持久层mapper，将员工信息保存到数据库中
 		employeeMapper.insert(employee);
@@ -173,11 +179,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Employee employee = new Employee();
 		BeanUtils.copyProperties(employeeDTO, employee);
 
-		// 设置当前记录的修改时间
-		employee.setUpdateTime(LocalDateTime.now());
-
-		// 设置当前记录修改人id
-		employee.setUpdateUser(BaseContext.getCurrentId());    // BaseContext 是一个工具类，用于获取当前线程的id，通过ThreadLocal实现
+		//// 设置当前记录的修改时间
+		//employee.setUpdateTime(LocalDateTime.now());
+		//
+		//// 设置当前记录修改人id
+		//employee.setUpdateUser(BaseContext.getCurrentId());    // BaseContext 是一个工具类，用于获取当前线程的id，通过ThreadLocal实现
 
 		employeeMapper.update(employee);
 	}
