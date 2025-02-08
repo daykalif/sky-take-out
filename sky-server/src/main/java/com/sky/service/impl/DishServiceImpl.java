@@ -120,4 +120,27 @@ public class DishServiceImpl implements DishService {
 		// sql: delete from dish_flavor where dish_id in (?,?,?)
 		dishFlavorMapper.deleteByDishIds(ids);
 	}
+
+
+	/**
+	 * 根据id查询菜品
+	 *
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public DishVO getByIdWithFlavor(Long id) {
+		// 根据id查询菜品数据
+		Dish dish = dishMapper.getById(id);
+
+		// 根据菜品id查询口味数据
+		List<DishFlavor> dishFlavorList = dishFlavorMapper.getByDishId(id);
+
+		// 将查询结果封装到dishVO中
+		DishVO dishVO = new DishVO();
+		BeanUtils.copyProperties(dish, dishVO);    // 属性拷贝，将dish的属性拷贝到dishVO中
+		dishVO.setFlavors(dishFlavorList);    // 将口味数据设置到dishVO中
+
+		return dishVO;
+	}
 }
