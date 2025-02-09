@@ -18,9 +18,11 @@ public class RedisConfiguration {
 		// 设置redis的连接工厂对象
 		redisTemplate.setConnectionFactory(redisConnectionFactory);
 
-		// 设置key的序列化器；如果不设置，默认使用JDK的序列化方式，存储的key和value会是乱码
+		// 设置key的序列化器；如果不设置，默认使用JDK的序列化方式，存储的key会是乱码
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
-		redisTemplate.setValueSerializer(new StringRedisSerializer());
+
+		// 设置value的序列化器
+		//redisTemplate.setValueSerializer(new StringRedisSerializer());
 
 		return redisTemplate;
 	}
