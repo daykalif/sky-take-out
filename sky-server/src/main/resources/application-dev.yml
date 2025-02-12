@@ -16,6 +16,9 @@ sky:
     port: 6379
     password:
     database: 10 # redis有16个数据库，默认是0号数据库
+  wechat:
+    appid: wx6c21d4adb27d7803
+    secret: 456bcea4f9267366e4c36890a4752aac
 
 
 # 阿里云配置access-key文档：https://help.aliyun.com/zh/direct-mail/configure-the-authentication-accesskey-in-the-environment-variable
