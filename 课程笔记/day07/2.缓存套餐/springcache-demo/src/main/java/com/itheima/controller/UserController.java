@@ -35,6 +35,8 @@ public class UserController {
 	}
 
 	@GetMapping
+	// key的生成：userCache::xxx，如果缓存中存在，则从缓存中获取，否则通过反射，调用getById方法，从数据库中获取
+	@Cacheable(cacheNames = "userCache", key = "#id")
 	public User getById(Long id) {
 		User user = userMapper.getById(id);
 		return user;
