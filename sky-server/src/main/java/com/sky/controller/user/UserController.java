@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,8 @@ public class UserController {
 
 	@PostMapping("/login")
 	@ApiOperation("微信登录")
+	// 如果使用Spring Cache缓存数据，key的生成，缓存的key为  customUserCache::xxx
+	@CachePut(cacheNames = "customUserCache", key = "#userLoginDTO.code")
 	public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {    // UserLoginDTO表示微信端传递过来的参数，封装了code；		UserLoginVO表示返回给前端的参数，封装了id、openid、token；
 		log.info("微信用户登录：{}", userLoginDTO.getCode());
 
