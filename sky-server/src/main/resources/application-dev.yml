@@ -19,6 +19,13 @@ sky:
   wechat:
     appid: wx6c21d4adb27d7803
     secret: 456bcea4f9267366e4c36890a4752aac
+    mchid: 1561414331
+    mchSerialNo: 4B3B3DC35414AD50B1B755BAF8DE9CC7CF407606
+    privateKeyFilePath: D:\pay\apiclient_key.pem
+    apiV3Key: CZBK51236435wxpay435434323FFDuv3
+    weChatPayCertFilePath: D:\pay\wechatpay_166D96F876F45C7D07CE98952A96EC980368ACFC.pem
+    notifyUrl: https://58869fb.r2.cpolar.top/notify/paySuccess
+    refundNotifyUrl: https://58869fb.r2.cpolar.top/notify/refundSuccess
 
 
 # 阿里云配置access-key文档：https://help.aliyun.com/zh/direct-mail/configure-the-authentication-accesskey-in-the-environment-variable
